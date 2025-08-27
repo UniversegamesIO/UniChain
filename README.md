@@ -104,12 +104,9 @@ UniChain/
 ## 🛠 Технический стек
 
 * **Блокчейн-ядро**: UNI Blockchain Protocol
-* **Языки разработки**: Rust, C++, TypeScript, JavaScript
-* **Интерфейсы API**: REST / GraphQL / WebSocket
+* **Языки разработки**: Rust, C++, TypeScript, JavaScript , FunS
 * **Инфраструктура**: Docker, Kubernetes
-* **Интеграции**: UniConnect, Telegram WebApp, Wallet SDK
-* **База данных**: PostgreSQL, Redis
-* **Мониторинг**: Prometheus, Grafana
+
 
 ## 📚 Документация
 
