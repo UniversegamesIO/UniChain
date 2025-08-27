@@ -53,7 +53,7 @@ update_constants() {
     echo "🔧 Обновление констант и типов..."
     
     # Создание файла с новыми константами
-    cat > uni-source/ton/unichain-constants.h << 'EOF'
+    cat > unichain-source/ton/unichain-constants.h << 'EOF'
 /*
     This file is part of Unichain Blockchain Library.
 
@@ -112,17 +112,17 @@ update_configs() {
     echo "⚙️ Обновление конфигурационных файлов..."
     
     # Обновление CMakeLists.txt
-    if [ -f "uni-source/CMakeLists.txt" ]; then
+    if [ -f "unichain-source/CMakeLists.txt" ]; then
         echo "🔄 Обновление CMakeLists.txt..."
-        sed -i 's/PROJECT(ton)/PROJECT(unichain)/g' uni-source/CMakeLists.txt
-        sed -i 's/UNI Blockchain/Unichain Blockchain/g' uni-source/CMakeLists.txt
+        sed -i 's/PROJECT(ton)/PROJECT(unichain)/g' unichain-source/CMakeLists.txt
+        sed -i 's/UNI Blockchain/Unichain Blockchain/g' unichain-source/CMakeLists.txt
     fi
     
     # Обновление README.md
-    if [ -f "uni-source/README.md" ]; then
+    if [ -f "unichain-source/README.md" ]; then
         echo "🔄 Обновление README.md..."
-        sed -i 's/UNI/Unichain/g' uni-source/README.md
-        sed -i 's/The Open Network/Next Generation Blockchain Technology/g' uni-source/README.md
+        sed -i 's/UNI/Unichain/g' unichain-source/README.md
+        sed -i 's/The Open Network/Next Generation Blockchain Technology/g' unichain-source/README.md
     fi
     
     echo "✅ Конфигурационные файлы обновлены"
@@ -133,10 +133,10 @@ update_docker() {
     echo "🐳 Обновление Docker конфигурации..."
     
     # Обновление Dockerfile
-    if [ -f "uni-source/Dockerfile" ]; then
+    if [ -f "unichain-source/Dockerfile" ]; then
         echo "🔄 Обновление Dockerfile..."
-        sed -i 's/UNI/Unichain/g' uni-source/Dockerfile
-        sed -i 's/uni-blockchain/unichain-blockchain/g' uni-source/Dockerfile
+        sed -i 's/UNI/Unichain/g' unichain-source/Dockerfile
+        sed -i 's/unichain-blockchain/unichain-blockchain/g' unichain-source/Dockerfile
     fi
     
     echo "✅ Docker конфигурация обновлена"
@@ -294,7 +294,7 @@ set -e
 echo "🔨 Сборка Unichain..."
 
 # Переход в директорию с исходным кодом
-cd uni-source
+cd unichain-source
 
 # Создание директории сборки
 mkdir -p build
@@ -406,14 +406,14 @@ main() {
     echo "🎨 Начало ребрендинга UNI в Unichain..."
     
     # Проверка наличия исходного кода
-    if [ ! -d "uni-source" ]; then
+    if [ ! -d "unichain-source" ]; then
         echo "❌ Исходный код UNI не найден. Запустите ./scripts/setup.sh"
         exit 1
     fi
     
     # Создание резервной копии
     echo "💾 Создание резервной копии..."
-    cp -r uni-source uni-source-backup
+    cp -r unichain-source unichain-source-backup
     
     # Выполнение ребрендинга
     replace_headers
@@ -440,7 +440,7 @@ main() {
     echo "2. Запустите: ./scripts/start-local.sh"
     echo "3. Изучите документацию"
     echo ""
-    echo "⚠️  Резервная копия сохранена в uni-source-backup/"
+    echo "⚠️  Резервная копия сохранена в unichain-source-backup/"
 }
 
 # Запуск скрипта

@@ -9,9 +9,9 @@ echo "🎨 Начало безопасного ребрендинга UNI в Uni
 
 # Создание резервной копии
 echo "💾 Создание резервной копии..."
-if [ ! -d "uni-source-backup" ]; then
-    cp -r uni-source uni-source-backup
-    echo "✅ Резервная копия создана в uni-source-backup/"
+if [ ! -d "unichain-source-backup" ]; then
+    cp -r unichain-source unichain-source-backup
+    echo "✅ Резервная копия создана в unichain-source-backup/"
 fi
 
 # Функция для безопасной замены в заголовках файлов
@@ -42,11 +42,11 @@ EOF
 
     # Замена заголовков в ключевых файлах
     local files=(
-        "uni-source/ton/ton-types.h"
-        "uni-source/ton/ton-types.cpp"
-        "uni-source/validator/validator-options.h"
-        "uni-source/validator-engine/validator-engine.h"
-        "uni-source/lite-client/lite-client.h"
+        "unichain-source/ton/ton-types.h"
+        "unichain-source/ton/ton-types.cpp"
+        "unichain-source/validator/validator-options.h"
+        "unichain-source/validator-engine/validator-engine.h"
+        "unichain-source/lite-client/lite-client.h"
     )
 
     for file in "${files[@]}"; do
@@ -74,7 +74,7 @@ safe_replace_namespace() {
     echo "🔧 Безопасная замена namespace..."
     
     # Заменяем только namespace, не трогая функциональность
-    find uni-source -name "*.h" -o -name "*.cpp" -o -name "*.cc" | while read file; do
+    find unichain-source -name "*.h" -o -name "*.cpp" -o -name "*.cc" | while read file; do
         if grep -q "namespace ton" "$file"; then
             echo "🔄 Обновление namespace в $file"
             # Создаем резервную копию
@@ -100,20 +100,20 @@ safe_replace_namespace() {
 safe_update_cmake() {
     echo "⚙️ Безопасное обновление CMakeLists.txt..."
     
-    if [ -f "uni-source/CMakeLists.txt" ]; then
-        cp "uni-source/CMakeLists.txt" "uni-source/CMakeLists.txt.backup"
+    if [ -f "unichain-source/CMakeLists.txt" ]; then
+        cp "unichain-source/CMakeLists.txt" "unichain-source/CMakeLists.txt.backup"
         
         # Заменяем только название проекта и описания
-        sed -i.tmp 's/project(UNI VERSION 0.5 LANGUAGES C CXX)/project(UNICHAIN VERSION 1.0 LANGUAGES C CXX)/g' uni-source/CMakeLists.txt
-        sed -i.tmp 's/  Out-of-source build should be used to build UNI./  Out-of-source build should be used to build Unichain./g' uni-source/CMakeLists.txt
+        sed -i.tmp 's/project(UNI VERSION 0.5 LANGUAGES C CXX)/project(UNICHAIN VERSION 1.0 LANGUAGES C CXX)/g' unichain-source/CMakeLists.txt
+        sed -i.tmp 's/  Out-of-source build should be used to build UNI./  Out-of-source build should be used to build Unichain./g' unichain-source/CMakeLists.txt
         
         # Проверяем изменения
-        if grep -q "project(UNICHAIN" uni-source/CMakeLists.txt; then
-            rm -f uni-source/CMakeLists.txt.tmp
+        if grep -q "project(UNICHAIN" unichain-source/CMakeLists.txt; then
+            rm -f unichain-source/CMakeLists.txt.tmp
             echo "✅ CMakeLists.txt обновлен"
         else
             echo "❌ Ошибка обновления CMakeLists.txt"
-            mv "uni-source/CMakeLists.txt.backup" "uni-source/CMakeLists.txt"
+            mv "unichain-source/CMakeLists.txt.backup" "unichain-source/CMakeLists.txt"
         fi
     fi
 }
@@ -123,7 +123,7 @@ create_unichain_constants() {
     echo "🔧 Создание констант Unichain..."
     
     # Создаем файл с константами Unichain
-    cat > uni-source/ton/unichain-constants.h << 'EOF'
+    cat > unichain-source/ton/unichain-constants.h << 'EOF'
 /*
     This file is part of Unichain Blockchain Library.
 
@@ -181,15 +181,15 @@ EOF
 safe_update_readme() {
     echo "📚 Безопасное обновление README..."
     
-    if [ -f "uni-source/README.md" ]; then
-        cp "uni-source/README.md" "uni-source/README.md.backup"
+    if [ -f "unichain-source/README.md" ]; then
+        cp "unichain-source/README.md" "unichain-source/README.md.backup"
         
         # Заменяем только названия и описания
-        sed -i.tmp 's/UNI/Unichain/g' uni-source/README.md
-        sed -i.tmp 's/The Open Network/Next Generation Blockchain Technology/g' uni-source/README.md
+        sed -i.tmp 's/UNI/Unichain/g' unichain-source/README.md
+        sed -i.tmp 's/The Open Network/Next Generation Blockchain Technology/g' unichain-source/README.md
         
         echo "✅ README обновлен"
-        rm -f uni-source/README.md.tmp
+        rm -f unichain-source/README.md.tmp
     fi
 }
 
@@ -200,21 +200,21 @@ verify_changes() {
     local errors=0
     
     # Проверяем, что основные файлы обновлены
-    if grep -q "Unichain Blockchain Library" uni-source/ton/ton-types.h; then
+    if grep -q "Unichain Blockchain Library" unichain-source/ton/ton-types.h; then
         echo "✅ ton-types.h обновлен"
     else
         echo "❌ ton-types.h не обновлен"
         ((errors++))
     fi
     
-    if grep -q "project(UNICHAIN" uni-source/CMakeLists.txt; then
+    if grep -q "project(UNICHAIN" unichain-source/CMakeLists.txt; then
         echo "✅ CMakeLists.txt обновлен"
     else
         echo "❌ CMakeLists.txt не обновлен"
         ((errors++))
     fi
     
-    if [ -f "uni-source/ton/unichain-constants.h" ]; then
+    if [ -f "unichain-source/ton/unichain-constants.h" ]; then
         echo "✅ Константы Unichain созданы"
     else
         echo "❌ Константы Unichain не созданы"
@@ -232,9 +232,9 @@ verify_changes() {
 rollback_changes() {
     echo "🔄 Откат изменений..."
     
-    if [ -d "uni-source-backup" ]; then
-        rm -rf uni-source
-        cp -r uni-source-backup uni-source
+    if [ -d "unichain-source-backup" ]; then
+        rm -rf unichain-source
+        cp -r unichain-source-backup unichain-source
         echo "✅ Изменения откачены"
     else
         echo "❌ Резервная копия не найдена"
@@ -246,7 +246,7 @@ main() {
     echo "🎨 Начало безопасного ребрендинга UNI в Unichain..."
     
     # Проверка наличия исходного кода
-    if [ ! -d "uni-source" ]; then
+    if [ ! -d "unichain-source" ]; then
         echo "❌ Исходный код UNI не найден. Запустите ./scripts/setup.sh"
         exit 1
     fi
@@ -276,7 +276,7 @@ main() {
     echo "2. Соберите проект: ./scripts/build-unichain.sh"
     echo "3. Протестируйте функциональность"
     echo ""
-    echo "⚠️  Резервная копия сохранена в uni-source-backup/"
+    echo "⚠️  Резервная копия сохранена в unichain-source-backup/"
     echo "🔄 Для отката: ./scripts/safe-rebrand.sh rollback"
 }
 

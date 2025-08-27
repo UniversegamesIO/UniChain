@@ -81,9 +81,9 @@ install_linux_deps() {
 
 # Клонирование UNI репозитория
 clone_uni() {
-    if [ ! -d "uni-source" ]; then
+    if [ ! -d "unichain-source" ]; then
         echo "📥 Клонирование UNI репозитория..."
-        git clone https://github.com/uni-blockchain/uni.git uni-source
+        git clone https://github.com/unichain-blockchain/uni.git unichain-source
         echo "✅ UNI репозиторий клонирован"
     else
         echo "✅ UNI репозиторий уже существует"
@@ -93,7 +93,7 @@ clone_uni() {
 # Настройка подмодулей
 setup_submodules() {
     echo "📦 Настройка подмодулей..."
-    cd uni-source
+    cd unichain-source
     git submodule update --init --recursive
     cd ..
     echo "✅ Подмодули настроены"
@@ -149,8 +149,8 @@ RUN apt-get update && apt-get install -y \\
     && rm -rf /var/lib/apt/lists/*
 
 # Копирование исходного кода
-COPY uni-source /app/uni-source
-WORKDIR /app/uni-source
+COPY unichain-source /app/unichain-source
+WORKDIR /app/unichain-source
 
 # Сборка UNI
 RUN mkdir build && cd build \\
@@ -162,7 +162,7 @@ RUN mkdir -p /app/data
 
 EXPOSE 8080 8081 8082
 
-CMD ["/app/uni-source/build/validator-engine/validator-engine"]
+CMD ["/app/unichain-source/build/validator-engine/validator-engine"]
 EOF
     
     cat > docker/docker-compose.yml << EOF
@@ -209,7 +209,7 @@ set -e
 
 echo "🔨 Сборка Unichain..."
 
-cd uni-source
+cd unichain-source
 mkdir -p build
 cd build
 
@@ -228,7 +228,7 @@ set -e
 echo "🚀 Запуск локальной сети Unichain..."
 
 # Проверка наличия собранных бинарников
-if [ ! -f "uni-source/build/validator-engine/validator-engine" ]; then
+if [ ! -f "unichain-source/build/validator-engine/validator-engine" ]; then
     echo "❌ Бинарники не найдены. Запустите ./scripts/build.sh"
     exit 1
 fi
@@ -238,7 +238,7 @@ mkdir -p data
 
 # Запуск валидатора
 echo "🔧 Запуск валидатора..."
-./uni-source/build/validator-engine/validator-engine \
+./unichain-source/build/validator-engine/validator-engine \
     --config config/unichain.conf \
     --db data/validator \
     --port 8080 &

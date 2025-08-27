@@ -9,9 +9,9 @@ echo "🧹 Начало полной очистки упоминаний UNI..."
 
 # Создание резервной копии
 echo "💾 Создание резервной копии..."
-if [ ! -d "uni-source-backup-complete" ]; then
-    cp -r uni-source uni-source-backup-complete
-    echo "✅ Полная резервная копия создана в uni-source-backup-complete/"
+if [ ! -d "unichain-source-backup-complete" ]; then
+    cp -r unichain-source unichain-source-backup-complete
+    echo "✅ Полная резервная копия создана в unichain-source-backup-complete/"
 fi
 
 # Функция для замены заголовков во всех файлах
@@ -41,7 +41,7 @@ replace_all_headers() {
 EOF
 
     # Замена заголовков во всех файлах
-    find uni-source -name "*.h" -o -name "*.cpp" -o -name "*.cc" | while read file; do
+    find unichain-source -name "*.h" -o -name "*.cpp" -o -name "*.cc" | while read file; do
         if head -n 20 "$file" | grep -q "UNI Blockchain"; then
             echo "🔄 Обновление заголовка в $file"
             # Сохраняем оригинальный файл
@@ -62,7 +62,7 @@ replace_all_ton_references() {
     echo "🔄 Замена всех упоминаний UNI..."
     
     # Заменяем упоминания UNI на Unichain (кроме технических)
-    find uni-source -type f \( -name "*.h" -o -name "*.cpp" -o -name "*.cc" -o -name "*.md" -o -name "*.txt" -o -name "*.cmake" -o -name "CMakeLists.txt" \) | while read file; do
+    find unichain-source -type f \( -name "*.h" -o -name "*.cpp" -o -name "*.cc" -o -name "*.md" -o -name "*.txt" -o -name "*.cmake" -o -name "CMakeLists.txt" \) | while read file; do
         if grep -q "UNI" "$file"; then
             echo "🔄 Обработка $file"
             
@@ -73,7 +73,7 @@ replace_all_ton_references() {
             sed -i.tmp 's/UNI Blockchain/Unichain Blockchain/g' "$file"
             sed -i.tmp 's/The Open Network/Next Generation Blockchain Technology/g' "$file"
             sed -i.tmp 's/Telegram Systems LLP/Unichain Foundation/g' "$file"
-            sed -i.tmp 's/uni-blockchain/unichain-blockchain/g' "$file"
+            sed -i.tmp 's/unichain-blockchain/unichain-blockchain/g' "$file"
             
             # Заменяем названия проектов
             sed -i.tmp 's/project(UNI/project(UNICHAIN/g' "$file"
@@ -92,7 +92,7 @@ replace_all_ton_references() {
 update_include_paths() {
     echo "📁 Обновление include путей..."
     
-    find uni-source -type f \( -name "*.h" -o -name "*.cpp" -o -name "*.cc" \) | while read file; do
+    find unichain-source -type f \( -name "*.h" -o -name "*.cpp" -o -name "*.cc" \) | while read file; do
         if grep -q "#include.*ton/" "$file"; then
             echo "🔄 Обновление include в $file"
             cp "$file" "$file.include.backup"
@@ -111,29 +111,29 @@ update_config_files() {
     echo "⚙️ Обновление конфигурационных файлов..."
     
     # Обновляем CMakeLists.txt
-    if [ -f "uni-source/CMakeLists.txt" ]; then
-        cp "uni-source/CMakeLists.txt" "uni-source/CMakeLists.txt.complete.backup"
+    if [ -f "unichain-source/CMakeLists.txt" ]; then
+        cp "unichain-source/CMakeLists.txt" "unichain-source/CMakeLists.txt.complete.backup"
         
         # Заменяем все упоминания UNI
-        sed -i.tmp 's/UNI/UNICHAIN/g' uni-source/CMakeLists.txt
-        sed -i.tmp 's/ton/unichain/g' uni-source/CMakeLists.txt
+        sed -i.tmp 's/UNI/UNICHAIN/g' unichain-source/CMakeLists.txt
+        sed -i.tmp 's/ton/unichain/g' unichain-source/CMakeLists.txt
         
         # Исправляем обратно технические параметры
-        sed -i.tmp 's/DUNI_ONLY_UNILIB/DUNICHAIN_ONLY_UNICHAINLIB/g' uni-source/CMakeLists.txt
-        sed -i.tmp 's/DUNI_USE_ABSEIL/DUNICHAIN_USE_ABSEIL/g' uni-source/CMakeLists.txt
-        sed -i.tmp 's/DUNI_USE_RANDOMX/DUNICHAIN_USE_RANDOMX/g' uni-source/CMakeLists.txt
-        sed -i.tmp 's/DUNI_USE_ROCKSDB/DUNICHAIN_USE_ROCKSDB/g' uni-source/CMakeLists.txt
-        sed -i.tmp 's/DUNI_USE_ZSTD/DUNICHAIN_USE_ZSTD/g' uni-source/CMakeLists.txt
+        sed -i.tmp 's/DUNI_ONLY_UNILIB/DUNICHAIN_ONLY_UNICHAINLIB/g' unichain-source/CMakeLists.txt
+        sed -i.tmp 's/DUNI_USE_ABSEIL/DUNICHAIN_USE_ABSEIL/g' unichain-source/CMakeLists.txt
+        sed -i.tmp 's/DUNI_USE_RANDOMX/DUNICHAIN_USE_RANDOMX/g' unichain-source/CMakeLists.txt
+        sed -i.tmp 's/DUNI_USE_ROCKSDB/DUNICHAIN_USE_ROCKSDB/g' unichain-source/CMakeLists.txt
+        sed -i.tmp 's/DUNI_USE_ZSTD/DUNICHAIN_USE_ZSTD/g' unichain-source/CMakeLists.txt
         
-        rm -f uni-source/CMakeLists.txt.tmp
+        rm -f unichain-source/CMakeLists.txt.tmp
     fi
     
     # Обновляем README
-    if [ -f "uni-source/README.md" ]; then
-        cp "uni-source/README.md" "uni-source/README.md.complete.backup"
-        sed -i.tmp 's/UNI/Unichain/g' uni-source/README.md
-        sed -i.tmp 's/The Open Network/Next Generation Blockchain Technology/g' uni-source/README.md
-        rm -f uni-source/README.md.tmp
+    if [ -f "unichain-source/README.md" ]; then
+        cp "unichain-source/README.md" "unichain-source/README.md.complete.backup"
+        sed -i.tmp 's/UNI/Unichain/g' unichain-source/README.md
+        sed -i.tmp 's/The Open Network/Next Generation Blockchain Technology/g' unichain-source/README.md
+        rm -f unichain-source/README.md.tmp
     fi
 }
 
@@ -145,8 +145,8 @@ update_scripts() {
     for script in scripts/*.sh; do
         if [ -f "$script" ]; then
             cp "$script" "$script.complete.backup"
-            sed -i.tmp 's/uni-source/unichain-source/g' "$script"
-            sed -i.tmp 's/uni-blockchain/unichain-blockchain/g' "$script"
+            sed -i.tmp 's/unichain-source/unichain-source/g' "$script"
+            sed -i.tmp 's/unichain-blockchain/unichain-blockchain/g' "$script"
             rm -f "$script.tmp"
         fi
     done
@@ -162,7 +162,7 @@ update_documentation() {
         sed -i.tmp 's/UNI Fork/Unichain Blockchain/g' README.md
         sed -i.tmp 's/основанная на технологии UNI/основанная на технологии Unichain/g' README.md
         sed -i.tmp 's/Исходный код UNI/Исходный код Unichain/g' README.md
-        sed -i.tmp 's/uni-source/unichain-source/g' README.md
+        sed -i.tmp 's/unichain-source/unichain-source/g' README.md
         rm -f README.md.tmp
     fi
     
@@ -184,14 +184,14 @@ verify_complete_changes() {
     local errors=0
     
     # Проверяем, что основные упоминания UNI заменены
-    if find uni-source -name "*.h" -o -name "*.cpp" | xargs grep -l "UNI Blockchain" | head -n 5 | wc -l | grep -q "0"; then
+    if find unichain-source -name "*.h" -o -name "*.cpp" | xargs grep -l "UNI Blockchain" | head -n 5 | wc -l | grep -q "0"; then
         echo "✅ Заголовки UNI заменены"
     else
         echo "❌ Остались заголовки UNI"
         ((errors++))
     fi
     
-    if grep -q "project(UNICHAIN" uni-source/CMakeLists.txt; then
+    if grep -q "project(UNICHAIN" unichain-source/CMakeLists.txt; then
         echo "✅ CMakeLists.txt обновлен"
     else
         echo "❌ CMakeLists.txt не обновлен"
@@ -209,9 +209,9 @@ verify_complete_changes() {
 rollback_complete_changes() {
     echo "🔄 Откат полных изменений..."
     
-    if [ -d "uni-source-backup-complete" ]; then
-        rm -rf uni-source
-        cp -r uni-source-backup-complete uni-source
+    if [ -d "unichain-source-backup-complete" ]; then
+        rm -rf unichain-source
+        cp -r unichain-source-backup-complete unichain-source
         echo "✅ Полные изменения откачены"
     else
         echo "❌ Полная резервная копия не найдена"
@@ -223,7 +223,7 @@ main() {
     echo "🧹 Начало полной очистки упоминаний UNI..."
     
     # Проверка наличия исходного кода
-    if [ ! -d "uni-source" ]; then
+    if [ ! -d "unichain-source" ]; then
         echo "❌ Исходный код не найден"
         exit 1
     fi
@@ -255,7 +255,7 @@ main() {
     echo "2. Соберите проект: ./scripts/build-unichain.sh"
     echo "3. Протестируйте функциональность"
     echo ""
-    echo "⚠️  Полная резервная копия сохранена в uni-source-backup-complete/"
+    echo "⚠️  Полная резервная копия сохранена в unichain-source-backup-complete/"
     echo "🔄 Для отката: ./scripts/complete-rebrand.sh rollback"
 }
 

@@ -21,18 +21,18 @@ replace_all_ton_references() {
     # Заменяем во всех файлах проекта
     find . -type f \( -name "*.md" -o -name "*.json" -o -name "*.yaml" -o -name "*.yml" -o -name "*.sh" -o -name "*.txt" \) \
         -not -path "./uni-backup-final/*" \
-        -not -path "./uni-source-backup*/*" \
+        -not -path "./unichain-source-backup*/*" \
         -not -path "./*.backup" \
         -not -path "./*.brand.backup" | while read file; do
         
-        if grep -q "UNI\|Ton\|ton\|The Open Network\|uni-blockchain\|UNI Labs" "$file"; then
+        if grep -q "UNI\|Ton\|ton\|The Open Network\|unichain-blockchain\|UNI Labs" "$file"; then
             echo "🔄 Обработка $file"
             cp "$file" "$file.uni.backup"
             
             # Заменяем упоминания
             sed -i.tmp 's/UNI Blockchain/UNI Blockchain/g' "$file"
             sed -i.tmp 's/The Open Network/UNI Blockchain Network/g' "$file"
-            sed -i.tmp 's/uni-blockchain/uni-blockchain/g' "$file"
+            sed -i.tmp 's/unichain-blockchain/unichain-blockchain/g' "$file"
             sed -i.tmp 's/UNI Labs/UNI Labs/g' "$file"
             sed -i.tmp 's/tonlib/unilib/g' "$file"
             sed -i.tmp 's/toncenter/unicenter/g' "$file"
@@ -44,7 +44,7 @@ replace_all_ton_references() {
             sed -i.tmp 's/основанная на технологии Unichain/самостоятельная блокчейн технология/g' "$file"
             sed -i.tmp 's/Ребрендинг UNI в Unichain/Разработка UNI Blockchain/g' "$file"
             sed -i.tmp 's/Исходный код UNI/Исходный код UNI/g' "$file"
-            sed -i.tmp 's/uni-source/uni-source/g' "$file"
+            sed -i.tmp 's/unichain-source/unichain-source/g' "$file"
             
             rm -f "$file.tmp"
         fi
@@ -55,14 +55,14 @@ replace_all_ton_references() {
 rename_files_and_dirs() {
     echo "📁 Переименование файлов и директорий..."
     
-    # Переименовываем uni-source в uni-source
-    if [ -d "uni-source" ]; then
-        mv uni-source uni-source
-        echo "✅ uni-source → uni-source"
+    # Переименовываем unichain-source в unichain-source
+    if [ -d "unichain-source" ]; then
+        mv unichain-source unichain-source
+        echo "✅ unichain-source → unichain-source"
     fi
     
     # Переименовываем файлы с ton в названии
-    find . -name "*ton*" -type f -not -path "./uni-backup-final/*" -not -path "./uni-source-backup*/*" | while read file; do
+    find . -name "*ton*" -type f -not -path "./uni-backup-final/*" -not -path "./unichain-source-backup*/*" | while read file; do
         new_name=$(echo "$file" | sed 's/ton/uni/g')
         if [ "$file" != "$new_name" ]; then
             mv "$file" "$new_name"
@@ -71,7 +71,7 @@ rename_files_and_dirs() {
     done
     
     # Переименовываем директории с ton в названии
-    find . -name "*ton*" -type d -not -path "./uni-backup-final/*" -not -path "./uni-source-backup*/*" | while read dir; do
+    find . -name "*ton*" -type d -not -path "./uni-backup-final/*" -not -path "./unichain-source-backup*/*" | while read dir; do
         new_name=$(echo "$dir" | sed 's/ton/uni/g')
         if [ "$dir" != "$new_name" ]; then
             mv "$dir" "$new_name"
@@ -128,7 +128,7 @@ cd UniChein
 
 ```
 UniChein/
-├── uni-source/           # Исходный код UNI Blockchain
+├── unichain-source/           # Исходный код UNI Blockchain
 ├── scripts/              # Скрипты сборки и развертывания
 ├── docs/                 # Документация
 ├── sdk/                  # JavaScript/TypeScript SDK
@@ -173,7 +173,7 @@ cleanup_backup_files() {
     echo "🗑️ Очистка резервных файлов..."
     
     # Удаляем старые резервные копии
-    rm -rf uni-source-backup uni-source-backup-brand uni-source-backup-complete
+    rm -rf unichain-source-backup unichain-source-backup-brand unichain-source-backup-complete
     
     # Удаляем .backup файлы
     find . -name "*.backup" -not -path "./uni-backup-final/*" -delete
@@ -199,8 +199,8 @@ update_configurations() {
     for script in scripts/*.sh; do
         if [ -f "$script" ]; then
             cp "$script" "$script.uni.backup"
-            sed -i.tmp 's/uni-source/uni-source/g' "$script"
-            sed -i.tmp 's/uni-blockchain/uni-blockchain/g' "$script"
+            sed -i.tmp 's/unichain-source/unichain-source/g' "$script"
+            sed -i.tmp 's/unichain-blockchain/unichain-blockchain/g' "$script"
             sed -i.tmp 's/UNI/UNI/g' "$script"
             rm -f "$script.tmp"
         fi
@@ -229,11 +229,11 @@ verify_cleanup() {
         ((errors++))
     fi
     
-    # Проверяем, что uni-source существует
-    if [ -d "uni-source" ]; then
-        echo "✅ uni-source создан"
+    # Проверяем, что unichain-source существует
+    if [ -d "unichain-source" ]; then
+        echo "✅ unichain-source создан"
     else
-        echo "❌ uni-source не найден"
+        echo "❌ unichain-source не найден"
         ((errors++))
     fi
     

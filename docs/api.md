@@ -301,7 +301,7 @@ GET /v1/accounts/{address}/balance
   "data": {
     "address": "EQA...",
     "balance": "1000000000000",
-    "currency": "UNI",
+    "currency": "Unichain",
     "decimals": 9
   }
 }
