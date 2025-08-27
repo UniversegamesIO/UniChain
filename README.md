@@ -166,9 +166,9 @@ Unichain — это не просто блокчейн-сеть:
 
 ## 📞 Контакты
 
-- **GitHub**: [UniChain Repository](https://github.com/your-username/UniChain)
-- **Telegram**: [UniChain Community](https://t.me/unichain_community)
-- **Discord**: [UniChain Discord](https://discord.gg/unichain)
+- **GitHub**: [UniChain Repository] (https://github.com/UniversegamesIO)
+- **Telegram Channel**: (https://t.me/UniverseGamesChannel) 
+- **Telegram Chat**: (https://t.me/UniverseGamesChat)
 
 ## 🔄 Последние обновления
 
