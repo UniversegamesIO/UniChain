@@ -94,8 +94,8 @@ UniChain/
 ├── config/               # Конфигурационные файлы
 ├── docker/               # Docker конфигурации
 ├── sdk/                  # JavaScript SDK
-├── unichain-source/           # Исходный код Unichain
-├── unichain-source-backup/    # Резервная копия исходного кода
+├── uni-source/                # Исходный код Unichain
+├── uni-source-backup/         # Резервная копия исходного кода
 ├── api/                  # API интерфейсы
 ├── deployment/           # Файлы деплоя
 └── contracts/            # Смарт-контракты
@@ -104,12 +104,9 @@ UniChain/
 ## 🛠 Технический стек
 
 * **Блокчейн-ядро**: UNI Blockchain Protocol
-* **Языки разработки**: Rust, C++, TypeScript, JavaScript
-* **Интерфейсы API**: REST / GraphQL / WebSocket
+* **Языки разработки**: Rust, C++, TypeScript, JavaScript , FunS
 * **Инфраструктура**: Docker, Kubernetes
-* **Интеграции**: UniConnect, Telegram WebApp, Wallet SDK
-* **База данных**: PostgreSQL, Redis
-* **Мониторинг**: Prometheus, Grafana
+
 
 ## 📚 Документация
 
@@ -162,3 +159,10 @@ Unichain — это не просто блокчейн-сеть:
 
 **Unichain** - Следующее поколение блокчейн технологий и финансовой безопасности
 
+---
+
+## 📞 Контакты
+
+- **GitHub**: [UniChain Repository](https://github.com/UniversegamesIO)
+- **Telegram Channel**: [UniverseGames Channel](https://t.me/UniverseGamesChannel) 
+- **Telegram Chat**: [UniverseGames Chat](https://t.me/UniverseGamesChat)

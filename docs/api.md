@@ -670,14 +670,6 @@ X-RateLimit-Remaining: 95
 X-RateLimit-Reset: 1642234567
 ```
 
-## 📞 Поддержка
-
-### Контакты
-
-- **Email**: api-support@unichain.org
-- **Telegram**: @unichain_api_support
-- **Discord**: Unichain API Community
-
 ### Полезные ссылки
 
 - [SDK документация](./sdk.md)

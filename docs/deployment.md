@@ -533,10 +533,10 @@ rm -rf /var/uni-work/db/old_blocks
 
 ### Контакты:
 
-- **Email**: support@unichain.org
-- **Telegram**: @unichain_support
-- **Discord**: Unichain Community
-- **GitHub**: github.com/unichain/issues
+- **Email**: UniverseGames2024@gmail.com
+- **Telegram**: @UniverseGamesSupport
+- **Telegram Chat**: @UniverseGamesChat
+
 
 ### Полезные ссылки:
 
